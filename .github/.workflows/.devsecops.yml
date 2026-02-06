@@ -1,0 +1,34 @@
+# .github/workflows/devsecops.yml 
+name: DevGuard DevSecOps
+
+on:
+    push:
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+    call-devsecops:
+        uses: l3montree-dev/devguard-action/.github/workflows/full.yml@main
+        with:
+            asset-name: "testorg-1/projects/testgroup/assets/testrepo"
+            api-url: "https://api.main.devguard.org"
+            web-ui: "https://main.devguard.org"
+        secrets:
+            devguard-token: "${{ secrets.DEVGUARD_TOKEN }}" # you need to create this secret in your GitHub repository settings
+jobs:
+    code-risk-identification: # what you want to name the job
+        steps:
+            # ...
+            # generate the SBOM file
+            # ...
+            - uses: l3montree-dev/devguard-action/.github/workflows/upload-sbom.yml@main
+              with:
+                  # Path to SBOM file relative to the root of the repository
+                  sbom-file: ./results.sbom
+                  asset-name: "testorg-1/projects/testgroup/assets/testrepo"
+                  api-url: "https://api.main.devguard.org"
+                  web-ui: "https://main.devguard.org"
+              secrets:
+                  devguard-token: "${{ secrets.DEVGUARD_TOKEN }}" # you need to create this secret in your GitHub repository settings 
