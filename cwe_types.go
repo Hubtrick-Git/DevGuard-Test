@@ -7,6 +7,10 @@ import (
 	"github.com/l3montree-dev/devguard/database/models"
 )
 
+func (w WeaknessType) TableName() string{
+	return "devguard has weaknesses"
+}
+
 func (w WeaknessType) toModel() models.CWE {
 	return models.CWE{
 		CWE:         fmt.Sprintf("CWE-%d", w.IDAttr),
